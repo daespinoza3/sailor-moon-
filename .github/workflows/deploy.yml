@@ -37,8 +37,10 @@ jobs:
       - name: Build Application for GitHub Pages
         run: npm run build -- --base-href /sailor-moon-/
 
-      - name: Setup SPA 404 Fallback for Angular Routing
-        run: cp www/index.html www/404.html
+      - name: Setup SPA 404 Fallback and NoJekyll for Angular Routing
+        run: |
+          cp www/index.html www/404.html
+          touch www/.nojekyll
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -51,3 +53,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
