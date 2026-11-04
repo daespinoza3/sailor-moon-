@@ -1,0 +1,108 @@
+<ion-header class="ion-no-border metallic-header">
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver" class="metallic-back-btn"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="metallic-title">
+      @if (character$ | async; as character) { {{ character.symbol }} {{ character.guardianName }} } @else { Perfil
+      Cósmico }
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detail-content">
+  <div class="stars-bg"></div>
+
+  @if (character$ | async; as char) {
+  <div class="detail-container">
+    <!-- 3D Chrome Card Container -->
+    <div class="card-perspective-wrapper">
+      <ion-card class="metallic-detail-card" [style.--char-color]="char.color">
+        <!-- Media Showcase with 3D Depth -->
+        <div class="character-media-wrapper">
+          <div class="glow-orb" [style.background]="char.color"></div>
+          <img
+            [src]="char.imageUrl"
+            [alt]="char.name"
+            class="character-portrait"
+            (error)="handleImageError($event, char.symbol)"
+          />
+          <div class="media-reflection-layer"></div>
+        </div>
+
+        <ion-card-header class="card-header-styled">
+          <!-- Badges Section: Category, Planet & Element -->
+          <div class="badges-row">
+            <ion-badge class="element-badge category-tag"> ✨ {{ char.category }} </ion-badge>
+            <ion-badge class="element-badge planet-tag"> 🪐 {{ char.symbol }} {{ char.planet }} </ion-badge>
+            <ion-badge class="element-badge power-tag" [style.--glow-color]="char.color">
+              ⚡ {{ char.element }}
+            </ion-badge>
+          </div>
+
+          <ion-card-title class="card-guardian-title">{{ char.guardianName }}</ion-card-title>
+          <ion-card-subtitle class="card-civilian-subtitle">
+            Identidad: {{ char.civilianName }} @if (char.latinName && char.latinName !== char.civilianName) {
+            <span>({{ char.latinName }})</span>
+            }
+          </ion-card-subtitle>
+          <p class="role-desc">{{ char.role }}</p>
+        </ion-card-header>
+
+        <ion-card-content class="card-content-styled">
+          <!-- Legendary Quote -->
+          <div class="quote-box">
+            <span class="quote-symbol">“</span>
+            <p class="quote-text">{{ char.quote }}</p>
+          </div>
+
+          <!-- Character Stats with Progress Bars -->
+          <div class="stats-container">
+            <h3 class="stats-header">Estadísticas de Combate</h3>
+
+            <!-- Attack Stat -->
+            <div class="stat-group">
+              <div class="stat-labels">
+                <span class="stat-name">⚔️ Poder de Ataque</span>
+                <span class="stat-value">{{ toPercent(char.stats.attack) }}%</span>
+              </div>
+              <ion-progress-bar [value]="char.stats.attack" class="custom-stat-bar attack-bar"></ion-progress-bar>
+            </div>
+
+            <!-- Defense Stat -->
+            <div class="stat-group">
+              <div class="stat-labels">
+                <span class="stat-name">🛡️ Resistencia & Defensa</span>
+                <span class="stat-value">{{ toPercent(char.stats.defense) }}%</span>
+              </div>
+              <ion-progress-bar [value]="char.stats.defense" class="custom-stat-bar defense-bar"></ion-progress-bar>
+            </div>
+
+            <!-- Magic Stat -->
+            <div class="stat-group">
+              <div class="stat-labels">
+                <span class="stat-name">✨ Energía Mágica Astral</span>
+                <span class="stat-value">{{ toPercent(char.stats.magic) }}%</span>
+              </div>
+              <ion-progress-bar
+                [value]="char.stats.magic"
+                class="custom-stat-bar magic-bar"
+                [style.--magic-accent]="char.color"
+              ></ion-progress-bar>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <div class="bottom-scroll-spacer"></div>
+    </div>
+  </div>
+  } @else {
+  <div class="loading-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Sintonizando frecuencia astral...</p>
+    <ion-button fill="outline" size="small" routerLink="/home" class="return-home-btn">
+      Regresar al listado
+    </ion-button>
+  </div>
+  }
+</ion-content>

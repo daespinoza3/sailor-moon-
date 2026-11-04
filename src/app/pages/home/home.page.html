@@ -1,0 +1,73 @@
+<ion-header class="ion-no-border metallic-header">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="metallic-title"> <span class="moon-icon">🌙</span> Serie Sailor Moon </ion-title>
+  </ion-toolbar>
+
+  <!-- Metallic Filter Segment -->
+  <ion-toolbar class="segment-toolbar">
+    <ion-segment [value]="selectedCategory()" (ionChange)="onCategoryChange($event)" mode="md" class="metallic-segment">
+      @for (cat of categories; track cat) {
+      <ion-segment-button [value]="cat">
+        <ion-label>{{ cat }}</ion-label>
+      </ion-segment-button>
+      }
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="home-content">
+  <div class="stars-bg"></div>
+
+  <div class="content-wrapper">
+    <div class="hero-banner">
+      <span class="sub-heading">Personajes de la Serie Animada</span>
+      <h1 class="main-heading">Elenco de Sailor Moon</h1>
+      <p class="hero-desc">
+        Explora las Guardianas del Sistema Solar Interior y Exterior, y sus aliados icónicos de los 90s.
+      </p>
+    </div>
+
+    @if (filteredCharacters(); as characters) { @if (characters.length > 0) {
+    <ion-list class="characters-list" lines="none">
+      @for (char of characters; track char.id; let i = $index) {
+      <ion-item
+        [routerLink]="['/detail', char.id]"
+        detail="true"
+        class="character-card-item"
+        [style.--stagger-delay]="i * 60 + 'ms'"
+        [style.--guardian-color]="char.color"
+      >
+        <ion-thumbnail slot="start" class="character-thumb">
+          <img [src]="char.imageUrl" [alt]="char.name" loading="lazy" (error)="handleImageError($event, char.symbol)" />
+        </ion-thumbnail>
+
+        <ion-label class="character-info">
+          <div class="top-row">
+            <span class="civilian-title">
+              {{ char.civilianName }} @if (char.latinName && char.latinName !== char.civilianName) { • {{ char.latinName
+              }} }
+            </span>
+            <ion-badge class="planet-badge" [style.--badge-color]="char.color">
+              {{ char.symbol }} {{ char.planet }}
+            </ion-badge>
+          </div>
+
+          <h2 class="guardian-name">{{ char.guardianName }}</h2>
+          <p class="element-text">✨ {{ char.element }}</p>
+        </ion-label>
+      </ion-item>
+      }
+    </ion-list>
+    <div class="bottom-scroll-spacer"></div>
+    } @else {
+    <div class="loading-state">
+      <p>No se encontraron personajes en esta categoría.</p>
+    </div>
+    } } @else {
+    <div class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Invocando poder lunar...</p>
+    </div>
+    }
+  </div>
+</ion-content>

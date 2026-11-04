@@ -1,14 +1,3 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
@@ -18,20 +7,62 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
+/* Optional CSS utils */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* Ionic Dark Mode - Always active by default */
+@import "@ionic/angular/css/palettes/dark.always.css";
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* Custom Theme Variables & Cosmic Metallic Palette */
+:root {
+  --ion-background-color: #0b0d17;
+  --ion-background-color-rgb: 11, 13, 23;
+  --ion-text-color: #f3f5fa;
+  --ion-text-color-rgb: 243, 245, 250;
+
+  --ion-toolbar-background: rgba(14, 18, 30, 0.85);
+  --ion-toolbar-color: #ffffff;
+  --ion-toolbar-border-color: rgba(255, 255, 255, 0.12);
+
+  /* Metallic Chrome Design Tokens */
+  --metallic-surface: linear-gradient(145deg, #1f2330 0%, #121520 50%, #252a3a 100%);
+  --metallic-surface-hover: linear-gradient(145deg, #282f42 0%, #181d2c 50%, #30374b 100%);
+  --metallic-border: 1px solid rgba(220, 230, 255, 0.22);
+  --metallic-border-highlight: 1px solid rgba(255, 255, 255, 0.45);
+  --metallic-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.12) inset;
+  --metallic-glow: 0 0 20px rgba(230, 210, 255, 0.15);
+
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+  background-color: var(--ion-background-color);
+  font-family: var(--font-family-base);
+  letter-spacing: 0.015em;
+}
+
+/* Chrome bevel effect utility */
+.chrome-bevel {
+  background: var(--metallic-surface);
+  border: var(--metallic-border);
+  box-shadow: var(--metallic-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.chrome-bevel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  pointer-events: none;
+}
